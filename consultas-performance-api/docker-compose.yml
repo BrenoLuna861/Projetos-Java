@@ -1,0 +1,11 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: performance-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: performance
+      POSTGRES_USER: performance
+      POSTGRES_PASSWORD: performance
+    command: ["postgres", "-c", "shared_buffers=256MB", "-c", "work_mem=16MB"]

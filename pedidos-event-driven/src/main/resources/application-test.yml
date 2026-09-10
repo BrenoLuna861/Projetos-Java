@@ -1,0 +1,10 @@
+# Perfil usado nos testes: sem broker, sem agendador.
+spring:
+  datasource:
+    url: jdbc:h2:mem:pedidos-test;DB_CLOSE_DELAY=-1
+  kafka:
+    bootstrap-servers: localhost:9092
+
+app:
+  outbox:
+    intervalo-ms: 3600000

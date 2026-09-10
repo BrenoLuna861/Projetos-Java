@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: pedidos-event-driven
+
+  datasource:
+    url: jdbc:h2:mem:pedidos;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+
+  h2:
+    console:
+      enabled: true
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all
+      retries: 3
+    consumer:
+      group-id: pedidos-consumer
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+app:
+  outbox:
+    topico: pedidos.eventos
+    intervalo-ms: 2000
+    lote: 50
+    max-tentativas: 5
+    timeout-segundos: 10
+
+server:
+  port: 8081
+
+logging:
+  level:
+    com.brenoluna.pedidos: INFO

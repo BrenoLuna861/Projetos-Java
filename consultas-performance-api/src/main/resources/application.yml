@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: consultas-performance-api
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/performance
+    username: performance
+    password: performance
+    hikari:
+      maximum-pool-size: 10
+
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+
+app:
+  seed:
+    # Quantidade de linhas geradas na primeira execucao.
+    # 500 mil e suficiente para a diferenca entre offset e keyset aparecer.
+    quantidade: 500000
+    lote: 5000
+
+server:
+  port: 8082
+
+logging:
+  level:
+    com.brenoluna.performance: INFO
