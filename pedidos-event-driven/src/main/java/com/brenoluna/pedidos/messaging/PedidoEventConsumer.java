@@ -3,6 +3,9 @@ package com.brenoluna.pedidos.messaging;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.support.KafkaHeaders;
+import org.springframework.messaging.handler.annotation.Header;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
@@ -24,7 +27,8 @@ public class PedidoEventConsumer {
     @KafkaListener(
             topics = "${app.outbox.topico:pedidos.eventos}",
             groupId = "${spring.kafka.consumer.group-id:pedidos-consumer}")
-    public void consumir(String chave, String payload) {
+    public void consumir(@Header(KafkaHeaders.RECEIVED_KEY) String chave,
+                         @Payload String payload) {
         if (!processados.add(chave + "|" + payload.hashCode())) {
             log.info("Evento duplicado do pedido {} ignorado", chave);
             return;
